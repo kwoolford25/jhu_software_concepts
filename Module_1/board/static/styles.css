@@ -67,17 +67,20 @@ https://www.w3schools.com/css/css3_flexbox.asp
     bottom: 0;
     background-color: aquamarine;
     width: 100%;
+    align-items: center;
 }
 
 #email {
-    background-color: blue;
+    background-color: blanchedalmond;
+    width: 25%;
 }
 
 #randText {
-    background-color: blanchedalmond;
-    width: 10%;
+    background-color: blue;
 }
 
 #linkedin {
     background-color:chartreuse;
+    width: 25%;
+
 }
