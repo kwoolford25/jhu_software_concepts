@@ -55,8 +55,14 @@ https://www.w3schools.com/cssref/css_units.php
     padding-bottom: 2.5rem;
 }
 
+/* 
+To evenly space out the footer, utilizing flexbox display
 
+https://www.w3schools.com/css/css3_flexbox.asp
+*/
 #footer {
+    display: flex;
+    justify-content: space-around;
     position: absolute;
     bottom: 0;
     background-color: aquamarine;
@@ -64,17 +70,14 @@ https://www.w3schools.com/cssref/css_units.php
 }
 
 #email {
-    float: left;
-    margin-left: 4%;
     background-color: blue;
 }
 
 #randText {
     background-color: blanchedalmond;
+    width: 10%;
 }
 
 #linkedin {
-    float: right;
-    margin-right: 4%;
     background-color:chartreuse;
 }
