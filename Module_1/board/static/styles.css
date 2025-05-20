@@ -60,4 +60,21 @@ https://www.w3schools.com/cssref/css_units.php
     position: absolute;
     bottom: 0;
     background-color: aquamarine;
+    width: 100%;
+}
+
+#email {
+    float: left;
+    margin-left: 4%;
+    background-color: blue;
+}
+
+#randText {
+    background-color: blanchedalmond;
+}
+
+#linkedin {
+    float: right;
+    margin-right: 4%;
+    background-color:chartreuse;
 }
