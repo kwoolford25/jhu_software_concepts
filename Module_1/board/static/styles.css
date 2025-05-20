@@ -32,3 +32,32 @@ main {
     width: 80%;
     margin: 0 auto;
 }
+
+/*
+Learned to keep a footer at base of webpage
+https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/  
+
+It involves setting the page height to 100vh
+This allows child elements to be set with absolute positions later
+
+w3 helped me understand the position properties
+https://www.w3schools.com/Css/css_positioning.asp
+
+w3 also helped me refresh on units
+https://www.w3schools.com/cssref/css_units.php
+*/
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;
+}
+
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    background-color: aquamarine;
+}

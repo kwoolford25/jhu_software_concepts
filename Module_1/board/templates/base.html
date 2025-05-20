@@ -4,8 +4,10 @@
     <title>Message Board - {% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+<div id="container">
+    <div id="content-wrapper">
 <body>
-<h1>Message Board</h1>
+<h1>Kyle Woolford</h1>
 {% include("_navigation.html") %}
 <section>
     <header>
@@ -15,5 +17,10 @@
         {% block content %}<p>No messages.</p>{% endblock content %}
     </main>
 </section>
+    </div>
+    <footer id="footer">
+        <p>This is a footer test</p>
+    </footer>
+</div>
 </body>
 </html>
