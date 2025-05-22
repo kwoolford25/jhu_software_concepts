@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects{% endblock title %}
+
+{% block page_title %}My Projects{% endblock page_title %}
+
+{% block content %}
+<div class="projects-container">
+    {% for project in projects %}
+    <div class="project-card">
+        <h3 class="project-title">{{ project.title }}</h3>
+        
+        <div class="project-details">
+            <p class="project-description">{{ project.description }}</p>
+            
+            <div class="project-tech">
+                <h4>Technologies:</h4>
+                <ul>
+                    {% for tech in project.technologies %}
+                    <li>{{ tech }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="project-links">
+                <a href="{{ project.github_url }}" target="_blank" class="github-link">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <!-- M1 Project Section (required by assignment) -->
+    <div class="project-card featured">
+        <h3 class="project-title">Module 1 Project: Personal Website</h3>
+        
+        <div class="project-details">
+            <p class="project-description">
+                This website was created as part of the JHU EP 605.256 – Modern Software Concepts 
+                course. It features a Flask backend with HTML templates and CSS styling. The site 
+                includes information about me, my projects, and contact details.
+            </p>
+            
+            <div class="project-tech">
+                <h4>Technologies:</h4>
+                <ul>
+                    <li>Python</li>
+                    <li>Flask</li>
+                    <li>HTML/CSS</li>
+                    <li>Jinja2 Templates</li>
+                </ul>
+            </div>
+            
+            <div class="project-links">
+                <a href="https://github.com/yourusername/jhu_software_concepts/tree/main/module_1" 
+                   target="_blank" class="github-link">
+                    View M1 Project on GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

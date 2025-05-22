@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Message Board - {% block title %}{% endblock title %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle Woolford - {% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<div id="container">
-    <div id="content-wrapper">
 <body>
-<h1>Kyle Woolford</h1>
-{% include("_navigation.html") %}
-<section>
-    <header>
-        {% block header %}{% endblock header %}
-    </header>
-    <main>
-        {% block content %}<p>No messages.</p>{% endblock content %}
-    </main>
-</section>
+    <div id="page-container">
+        <div id="content-wrap">
+            <!-- Header with name and navigation -->
+            <header id="main-header">
+                <div class="header-content">
+                    <h1 id="site-title">Kyle Woolford</h1>
+                    <!-- Navigation moved to top right as per requirements -->
+                    {% include "_navigation.html" %}
+                </div>
+            </header>
+
+            <!-- Main content section -->
+            <main>
+                <section class="content-section">
+                    <h2 class="page-title">{% block page_title %}{% endblock page_title %}</h2>
+                    {% block content %}{% endblock content %}
+                </section>
+            </main>
+        </div>
+
+        <!-- Footer with contact information -->
+        <footer id="footer">
+            <div class="footer-content">
+                <p id="email">Email: <a href="mailto:kwoolfo4@jh.edu">kwoolfo4@jh.edu</a></p>
+                <p id="copyright">&copy; 2023 Kyle Woolford</p>
+                <p id="linkedin">
+                    <a href="https://www.linkedin.com/in/kyle-woolford-951036232/" target="_blank">LinkedIn</a>
+                </p>
+            </div>
+        </footer>
     </div>
-    <footer id="footer">
-        <p id="email">Email Me: kwoolfo4@jh.edu</p>
-        <p id="randText">center</p>
-        <a href="https://www.linkedin.com/in/kyle-woolford-951036232/" id="linkedin">LinkedIn</a>
-    </footer>
-</div>
 </body>
 </html>

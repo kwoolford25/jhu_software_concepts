@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact{% endblock title %}
+
+{% block page_title %}Contact Information{% endblock page_title %}
+
+{% block content %}
+<div class="contact-container">
+    <div class="contact-card">
+        <div class="contact-method">
+            <h3>Email</h3>
+            <p><a href="mailto:{{ email }}">{{ email }}</a></p>
+        </div>
+        
+        <div class="contact-method">
+            <h3>LinkedIn</h3>
+            <p>
+                <a href="{{ linkedin_url }}" target="_blank">
+                    {{ linkedin_name }}
+                </a>
+            </p>
+        </div>
+        
+        <div class="contact-method">
+            <h3>GitHub</h3>
+            <p>
+                <a href="https://github.com/yourusername" target="_blank">
+                    github.com/yourusername
+                </a>
+                <!-- Update with your actual GitHub URL -->
+            </p>
+        </div>
+    </div>
+    
+    <div class="contact-message">
+        <p>
+            I'm always open to discussing new projects, opportunities, or collaborations. 
+            Feel free to reach out through any of the channels above!
+        </p>
+    </div>
+</div>
+{% endblock content %}
