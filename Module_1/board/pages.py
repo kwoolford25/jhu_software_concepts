@@ -1,28 +1,28 @@
 from flask import Blueprint, render_template, request, jsonify, session
 import os
 from dotenv import load_dotenv
-import openai
+from openai import OpenAI
 import json
+import time
 
 
 # Create a Blueprint named "pages"
 bp = Blueprint("pages", __name__)
 
-# Route for homepage - includes bio, picture, name, position
+# Route for homepage
 @bp.route("/")
 def home():
-    # Pass your information to the template
+    # Passing information to the template
     return render_template(
         "pages/home.html",
         name="Kyle Woolford",
-        position="MLOps Engineer",  # Update with your actual position
-        # You can add more context variables here if needed
+        position="MLOps Programmer Analyst at Johns Hopkins",
     )
 
-# Route for contact page - includes email and LinkedIn
+# Route for contact page
 @bp.route("/contact")
 def contact():
-    # Pass your contact information to the template
+    # Passing contact information to the template
     return render_template(
         "pages/contact.html",
         email="kwoolfo4@jh.edu",
@@ -31,7 +31,7 @@ def contact():
         # You can add more contact methods here
     )
 
-# Route for projects page - includes your M1 project and other work
+# Route for projects page
 @bp.route("/projects")
 def projects():
     # Create a list of projects to display
@@ -39,10 +39,10 @@ def projects():
         {
             "title": "Personal Website with Custom Chatbot",
             "description": "A Flask-based personal website featuring a custom OpenAI-powered chatbot trained on personal data to answer questions about me.",
-            "github_url": "https://github.com/yourusername/jhu_software_concepts",
+            "github_url": "https://github.com/kwoolford25/jhu_software_concepts/tree/main/Module_1",
             "technologies": ["Python", "Flask", "HTML/CSS", "OpenAI API"]
         },
-        # You can add more projects here
+        # More projects will be added here
     ]
     
     return render_template("pages/projects.html", projects=projects)
@@ -54,75 +54,100 @@ def chat():
 
 @bp.route("/api/chat", methods=["POST"])
 def process_chat():
-    """Process chat messages and return AI responses"""
+    """Process chat messages using OpenAI Assistants API"""
     try:
         # Get message from request
         data = request.json
         user_message = data.get("message", "")
         
-        # Initialize chat history if it doesn't exist
-        if "chat_history" not in session:
-            session["chat_history"] = []
-        
-        # Add user message to history
-        session["chat_history"].append({"role": "user", "content": user_message})
-        
-        # Prepare messages for OpenAI API
-        messages = [
-            {"role": "system", "content": "You are Kyle's personal assistant chatbot. You help users learn about Kyle's background, projects, and skills. If someone asks for Kyle's resume, respond with exactly 'resume=true' and nothing else. Keep responses concise and helpful. If you don't know something, say so politely."},
-        ]
-        
-        # Add chat history (limit to last 10 messages to save tokens)
-        messages.extend(session["chat_history"][-10:])
-        
         # Check if API key is configured
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key or api_key == "your_api_key_here":
-            # No valid API key found
-            response = "Sorry, the chatbot is not configured correctly. Please check the README for setup instructions."
-            session["chat_history"].append({"role": "assistant", "content": response})
-            return jsonify({"response": response, "error": "API key not configured"})
+            return jsonify({
+                "response": "Sorry, the chatbot is not configured correctly. Please check the README for setup instructions.",
+                "error": "API key not configured"
+            })
         
-        # Call OpenAI API
-        try:
-            openai.api_key = api_key
-            completion = openai.ChatCompletion.create(
-                model=os.getenv("OPENAI_MODEL", "gpt-3.5-turbo"),
-                messages=messages,
-                max_tokens=int(os.getenv("MAX_TOKENS_PER_REQUEST", 150)),
-                temperature=0.7,
+        client = OpenAI(api_key=api_key)
+        
+        # Get or create thread ID from session
+        thread_id = session.get("thread_id")
+        if not thread_id:
+            # Create a new thread
+            thread = client.beta.threads.create()
+            thread_id = thread.id
+            session["thread_id"] = thread_id
+        
+        # Get assistant ID from environment or create if not exists
+        assistant_id = os.getenv("ASSISTANT_ID")
+        if not assistant_id:
+            # This is a one-time setup that should be done manually
+            # and the ID stored in the .env file
+            return jsonify({
+                "response": "Assistant ID not configured. Please create an assistant and add its ID to the .env file.",
+                "error": "Assistant not configured"
+            })
+        
+        # Add the user message to the thread
+        client.beta.threads.messages.create(
+            thread_id=thread_id,
+            role="user",
+            content=user_message
+        )
+        
+        # Run the assistant on the thread
+        run = client.beta.threads.runs.create(
+            thread_id=thread_id,
+            assistant_id=assistant_id
+        )
+        
+        # Poll for the run to complete
+        while run.status in ["queued", "in_progress"]:
+            time.sleep(0.5)  # Wait half a second before checking again
+            run = client.beta.threads.runs.retrieve(
+                thread_id=thread_id,
+                run_id=run.id
             )
-            
-            # Extract response
-            ai_response = completion.choices[0].message.content
-            
-            # Add AI response to history
-            session["chat_history"].append({"role": "assistant", "content": ai_response})
-            
-            # Check for special commands
-            if ai_response.strip().lower() == "resume=true":
-                return jsonify({
-                    "response": "I'd be happy to show you Kyle's resume!",
-                    "action": "show_resume"
-                })
-            
-            return jsonify({"response": ai_response})
-            
-        except Exception as e:
-            # Log the error (in a production app)
-            print(f"OpenAI API Error: {str(e)}")
-            
-            # Return friendly error message
-            error_message = "Sorry, I'm having trouble connecting to my brain right now. Please try again later."
-            session["chat_history"].append({"role": "assistant", "content": error_message})
-            return jsonify({"response": error_message, "error": str(e)})
+        
+        # Check if run failed
+        if run.status != "completed":
+            return jsonify({
+                "response": "Sorry, there was an error processing your message. Please try again later.",
+                "error": f"Run status: {run.status}"
+            })
+        
+        # Get the latest message (the assistant's response)
+        messages = client.beta.threads.messages.list(thread_id=thread_id)
+        
+        # The first message should be the latest assistant response
+        for message in messages.data:
+            if message.role == "assistant":
+                # Check for special commands in the response
+                response_text = message.content[0].text.value
+                
+                if "resume=true" in response_text.lower():
+                    return jsonify({
+                        "response": "I'd be happy to show you Kyle's resume!",
+                        "action": "show_resume"
+                    })
+                
+                return jsonify({"response": response_text})
+        
+        # Fallback if no assistant message found
+        return jsonify({
+            "response": "Sorry, I couldn't generate a response. Please try again.",
+            "error": "No assistant message found"
+        })
             
     except Exception as e:
-        return jsonify({"response": "An error occurred processing your request.", "error": str(e)})
+        return jsonify({
+            "response": "An error occurred processing your request.",
+            "error": str(e)
+        })
 
 @bp.route("/api/reset-chat", methods=["POST"])
 def reset_chat():
-    """Reset the chat history"""
-    if "chat_history" in session:
-        session.pop("chat_history")
+    """Reset the chat thread"""
+    if "thread_id" in session:
+        session.pop("thread_id")
     return jsonify({"status": "success", "message": "Chat history reset"})
