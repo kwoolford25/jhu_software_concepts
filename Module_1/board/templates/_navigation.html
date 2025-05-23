@@ -1,10 +1,5 @@
 <nav id="main-nav">
     <ul>
-        <!-- 
-            The is-active class will be added to the current page link
-            url_for generates the correct URL for each route
-            request.path is used to determine the current page
-        -->
         <li class="nav-item {% if request.path == url_for('pages.home') %}is-active{% endif %}">
             <a href="{{ url_for('pages.home') }}">Home</a>
         </li>
@@ -13,6 +8,9 @@
         </li>
         <li class="nav-item {% if request.path == url_for('pages.contact') %}is-active{% endif %}">
             <a href="{{ url_for('pages.contact') }}">Contact</a>
+        </li>
+        <li class="nav-item {% if request.path == url_for('pages.chat') %}is-active{% endif %}">
+            <a href="{{ url_for('pages.chat') }}">Chat</a>
         </li>
     </ul>
 </nav>

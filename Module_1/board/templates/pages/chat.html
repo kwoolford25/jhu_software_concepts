@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat with Kyle's Assistant{% endblock title %}
+
+{% block page_title %}Chat with My Assistant{% endblock page_title %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="chat-description">
+        <p>
+            Feel free to ask me questions about Kyle's background, skills, projects, or request to see his resume!
+        </p>
+    </div>
+    
+    <div class="chat-window" id="chat-window">
+        <div class="chat-messages" id="chat-messages">
+            <div class="message assistant">
+                <div class="message-content">
+                    Hello! I'm Kyle's assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-area">
+            <textarea id="user-input" 
+                      placeholder="Type your message here..." 
+                      maxlength="500"
+                      rows="2"></textarea>
+            <div class="chat-buttons">
+                <button id="reset-chat" title="Reset conversation">
+                    <span>Reset</span>
+                </button>
+                <button id="send-message" title="Send message">
+                    <span>Send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="chat-suggestions">
+        <p>Try asking:</p>
+        <ul>
+            <li><a href="#" class="suggestion-link">What projects has Kyle worked on?</a></li>
+            <li><a href="#" class="suggestion-link">Can I see Kyle's resume?</a></li>
+            <li><a href="#" class="suggestion-link">What are Kyle's technical skills?</a></li>
+        </ul>
+    </div>
+    
+    <!-- Hidden resume modal that can be shown when requested -->
+    <div id="resume-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Kyle's Resume</h2>
+            <div class="resume-content">
+                <!-- You can put your actual resume content here -->
+                <h3>Education</h3>
+                <p>Johns Hopkins University - MS in Computer Science</p>
+                
+                <h3>Experience</h3>
+                <p>MLOps Engineer - Current Company</p>
+                <p>Previous relevant positions...</p>
+                
+                <h3>Skills</h3>
+                <p>Python, Machine Learning, Flask, OpenAI, etc.</p>
+                
+                <div class="resume-download">
+                    <a href="#" class="download-button">Download PDF Resume</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-message');
+    const resetButton = document.getElementById('reset-chat');
+    const suggestionLinks = document.querySelectorAll('.suggestion-link');
+    const resumeModal = document.getElementById('resume-modal');
+    const closeModal = document.querySelector('.close-modal');
+    
+    // Function to add a message to the chat
+    function addMessage(content, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}`;
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.textContent = content;
+        
+        messageDiv.appendChild(messageContent);
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom of chat
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Function to show loading indicator
+    function showLoading() {
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message assistant loading';
+        loadingDiv.id = 'loading-message';
+        
+        const loadingContent = document.createElement('div');
+        loadingContent.className = 'message-content';
+        loadingContent.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+        
+        loadingDiv.appendChild(loadingContent);
+        chatMessages.appendChild(loadingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Function to hide loading indicator
+    function hideLoading() {
+        const loadingMessage = document.getElementById('loading-message');
+        if (loadingMessage) {
+            loadingMessage.remove();
+        }
+    }
+    
+    // Function to send message to server
+    async function sendMessage(message) {
+        if (!message.trim()) return;
+        
+        // Add user message to chat
+        addMessage(message, 'user');
+        
+        // Clear input
+        userInput.value = '';
+        
+        // Show loading indicator
+        showLoading();
+        
+        try {
+            // Send message to server
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message }),
+            });
+            
+            const data = await response.json();
+            
+            // Hide loading indicator
+            hideLoading();
+            
+            // Check for special actions
+            if (data.action === 'show_resume') {
+                // Show resume modal
+                resumeModal.style.display = 'block';
+            }
+            
+            // Add assistant response to chat
+            addMessage(data.response, 'assistant');
+            
+        } catch (error) {
+            // Hide loading indicator
+            hideLoading();
+            
+            // Show error message
+            addMessage('Sorry, there was an error processing your request. Please try again later.', 'assistant');
+            console.error('Error:', error);
+        }
+    }
+    
+    // Function to reset chat
+    async function resetChat() {
+        try {
+            await fetch('/api/reset-chat', {
+                method: 'POST',
+            });
+            
+            // Clear chat messages
+            chatMessages.innerHTML = '';
+            
+            // Add welcome message
+            addMessage('Hello! I\'m Kyle\'s assistant. How can I help you today?', 'assistant');
+            
+        } catch (error) {
+            console.error('Error resetting chat:', error);
+        }
+    }
+    
+    // Event listeners
+    sendButton.addEventListener('click', () => {
+        sendMessage(userInput.value);
+    });
+    
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage(userInput.value);
+        }
+    });
+    
+    resetButton.addEventListener('click', resetChat);
+    
+    // Suggestion link clicks
+    suggestionLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            userInput.value = link.textContent;
+            sendMessage(link.textContent);
+        });
+    });
+    
+    // Modal close button
+    closeModal.addEventListener('click', () => {
+        resumeModal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside of it
+    window.addEventListener('click', (e) => {
+        if (e.target === resumeModal) {
+            resumeModal.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock content %}
