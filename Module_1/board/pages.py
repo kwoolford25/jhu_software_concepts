@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import json
 import time
+import logging
+import traceback
 
 
 # Create a Blueprint named "pages"
@@ -148,9 +150,17 @@ def chat():
                             else:
                                 error = "No response received from assistant."
                         elif not error:
-                            error = f"Error: Assistant run failed with status {run.status}"
+                            # Get more detailed error information
+                            run_details = client.beta.threads.runs.retrieve(
+                                thread_id=thread_id,
+                                run_id=run.id
+                            )
+                            error = f"Error: Assistant run failed with status {run.status}. Details: {run_details}"
+                            logging.error(f"OpenAI run failed: {run_details}")
                             
                 except Exception as e:
+                    error_details = traceback.format_exc()
+                    logging.error(f"Exception in chat: {str(e)}\n{error_details}")
                     error = f"An error occurred: {str(e)}"
     
     # Make a copy of the messages for the template
