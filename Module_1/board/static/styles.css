@@ -13,21 +13,28 @@ html {
 
 /* Color variables for consistent theming */
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --accent-color: #e74c3c;
-    --light-color: #ecf0f1;
-    --dark-color: #2c3e50;
-    --text-color: #333;
-    --link-color: #3498db;
-    --link-hover: #2980b9;
-    --nav-highlight: #e74c3c;
-    --error-bg: #ffebee;
-    --error-color: #c62828;
-    --error-border: #ffcdd2;
-    --light-gray: #f1f1f1;
-    --medium-gray: #e1e1e1;
-    --border-color: #ddd;
+    --primary-color: #2E1A47;      /* Deep midnight purple - for accents */
+    --secondary-color: #8A4FFF;     /* Bright purple - for buttons and highlights */
+    --accent-color: #B088F9;        /* Light purple - for secondary accents */
+    --light-color: #FFFFFF;         /* White - for backgrounds */
+    --light-bg: #F8F7FC;            /* Very light purple tint - for page background */
+    --dark-color: #333333;          /* Dark gray - for main text */
+    --text-color: #444444;          /* Medium gray - for body text */
+    --link-color: #6B3FA0;          /* Medium purple for links */
+    --link-hover: #8A4FFF;          /* Bright purple for hover */
+    --nav-highlight: #8A4FFF;       /* Bright purple for nav highlight */
+    --error-bg: #FFE8F0;            /* Light pink for errors */
+    --error-color: #D81B60;         /* Pink-red for error text */
+    --error-border: #F48FB1;        /* Light pink for error borders */
+    --light-gray: #F3EEFF;          /* Light purple-gray */
+    --medium-gray: #E1D9F3;         /* Medium purple-gray */
+    --border-color: #E0E0E0;        /* Light gray for borders */
+    --success-color: #4CAF50;       /* Green for success messages */
+    --card-bg: #FFFFFF;             /* White for card backgrounds */
+    --chat-user: #8A4FFF;           /* User message background */
+    --chat-assistant: #F8F7FC;      /* Assistant message background */
+    --header-gradient-start: #2E1A47; /* Header gradient start */
+    --header-gradient-end: #4A2D6B;  /* Header gradient end */
 }
 
 body {
@@ -35,8 +42,9 @@ body {
     font-size: 16px;
     line-height: 1.6;
     color: var(--text-color);
-    background-color: var(--light-color);
+    background-color: var(--light-bg);
     margin-right: calc(100vw - 100%); /* Compensate for scrollbar width */
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 a {
@@ -47,6 +55,11 @@ a {
 
 a:hover {
     color: var(--link-hover);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* ==================== */
@@ -68,7 +81,7 @@ main {
 }
 
 .content-section {
-    background-color: white;
+    background-color: var(--light-color);
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -85,10 +98,10 @@ main {
 /* HEADER & NAVIGATION  */
 /* ==================== */
 #main-header {
-    background-color: var(--primary-color);
+    background: linear-gradient(to right, var(--header-gradient-start), var(--header-gradient-end));
     color: white;
     padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .header-content {
@@ -140,7 +153,7 @@ main {
     bottom: 0;
     width: 100%;
     height: 80px;
-    background-color: var(--primary-color);
+    background: linear-gradient(to right, var(--header-gradient-start), var(--header-gradient-end));
     color: white;
     display: flex;
     align-items: center;
@@ -171,6 +184,7 @@ main {
     display: flex;
     gap: 2rem;
     align-items: flex-start;
+    margin-bottom: 2rem;
 }
 
 .bio-text {
@@ -187,6 +201,62 @@ main {
     max-width: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Homepage CTA Button */
+.cta-container {
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(138, 79, 255, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(138, 79, 255, 0.4);
+    color: white;
+}
+
+.cta-icon {
+    font-size: 1.4rem;
+    margin-right: 0.8rem;
+}
+
+/* Image Explanation Section */
+.image-explanation {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid var(--accent-color);
+}
+
+.image-explanation h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.tech-note {
+    background-color: var(--light-gray);
+    border-left: 4px solid var(--secondary-color);
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
 }
 
 /* ==================== */
@@ -208,11 +278,17 @@ main {
 .contact-method {
     flex: 1;
     min-width: 200px;
-    background-color: var(--light-color);
+    background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    border-bottom: 3px solid var(--secondary-color);
+}
+
+.contact-method:hover {
+    transform: translateY(-5px);
 }
 
 .contact-method h3 {
@@ -236,14 +312,34 @@ main {
 }
 
 .project-card {
-    background-color: var(--light-color);
+    background-color: var(--card-bg);
     border-radius: 8px;
     padding: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .project-card.featured {
-    border-left: 5px solid var(--accent-color);
+    border-left: 4px solid var(--accent-color);
+    position: relative;
+}
+
+.project-card.featured::before {
+    content: "Featured";
+    position: absolute;
+    top: 1rem;
+    right: 0;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.3rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 4px 0 0 4px;
 }
 
 .project-title {
@@ -314,7 +410,7 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     overflow: hidden;
-    background-color: white;
+    background-color: var(--card-bg);
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
@@ -345,14 +441,14 @@ main {
 }
 
 .user .message-content {
-    background-color: var(--secondary-color);
+    background-color: var(--chat-user);
     color: white;
     border-bottom-right-radius: 4px;
 }
 
 .assistant .message-content {
     background-color: var(--light-gray);
-    color: var(--text-color);
+    color: var(--dark-color);
     border-bottom-left-radius: 4px;
 }
 
@@ -364,7 +460,7 @@ main {
 
 /* Processing indicator */
 .message.processing .message-content {
-    background-color: #e3f2fd;
+    background-color: #E3F2FD;
 }
 
 .typing-indicator {
@@ -404,7 +500,7 @@ main {
 .chat-input-area {
     padding: 1rem;
     border-top: 1px solid var(--border-color);
-    background-color: #f9f9f9;
+    background-color: #FAFAFA;
 }
 
 .chat-form-container {
@@ -456,7 +552,7 @@ main {
 
 .reset-button, button[value="reset"] {
     background-color: var(--light-gray);
-    color: var(--text-color);
+    color: var(--dark-color);
 }
 
 .reset-button:hover, button[value="reset"]:hover {
@@ -492,23 +588,24 @@ main {
     border-radius: 20px;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
     font-family: inherit;
     color: var(--link-color);
 }
 
 .suggestion-button:hover {
     background-color: var(--medium-gray);
+    transform: translateY(-2px);
 }
 
 .chat-info {
-    background-color: #e3f2fd;
+    background-color: #EFF6FF;
     border-left: 4px solid var(--secondary-color);
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
     border-radius: 4px;
     font-size: 0.9rem;
-    color: #0d47a1;
+    color: var(--dark-color);
     display: flex;
     align-items: center;
 }
@@ -521,6 +618,15 @@ main {
 /* ==================== */
 /* RESUME SECTION      */
 /* ==================== */
+.resume-section {
+    margin-top: 2rem;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
 .resume-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -532,6 +638,7 @@ main {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
     border-bottom: none;
+    color: var(--primary-color);
 }
 
 .resume-contact {
@@ -547,6 +654,14 @@ main {
 
 .resume-section-content {
     margin-bottom: 2rem;
+}
+
+.resume-section-content h4 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+    font-size: 1.4rem;
 }
 
 .skills-grid {
@@ -604,21 +719,27 @@ main {
     font-style: italic;
 }
 
-@media (max-width: 768px) {
-    .skill-row {
-        grid-template-columns: 1fr;
-        gap: 0.25rem;
-    }
-    
-    .resume-item-header, .resume-item-subheader {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .resume-location, .resume-date {
-        margin-top: 0.25rem;
-    }
+.resume-download {
+    margin-top: 2rem;
+    text-align: center;
 }
+
+.download-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.download-button:hover {
+    background-color: blueviolet;
+    transform: translateY(-2px);
+}
+
 /* ==================== */
 /* RESPONSIVE DESIGN   */
 /* ==================== */
@@ -654,5 +775,19 @@ main {
     
     .message-content {
         max-width: 85%;
+    }
+    
+    .skill-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+    
+    .resume-item-header, .resume-item-subheader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .resume-location, .resume-date {
+        margin-top: 0.25rem;
     }
 }

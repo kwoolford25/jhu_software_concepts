@@ -5,6 +5,7 @@
 {% block page_title %}About Me{% endblock page_title %}
 
 {% block content %}
+<!-- Bio container with text and image only -->
 <div class="bio-container">
     <!-- Bio text on the left as per requirements -->
     <div class="bio-text">
@@ -18,7 +19,6 @@
         <p>
             When I'm not coding, you can find me exploring new technologies, working out, or playing video games (My favorite is Starcraft 2).
         </p>
-        <!-- Replace the above text with your actual bio -->
     </div>
     
     <!-- Profile picture on the right as per requirements -->
@@ -26,6 +26,32 @@
         <img src="{{ url_for('static', filename='images/profile_picture.jpg') }}" 
              alt="Kyle Woolford's profile picture" 
              class="profile-picture">
+    </div>
+</div>
+
+<!-- CTA button outside the bio container -->
+<div class="cta-container">
+    <a href="{{ url_for('pages.chat') }}" class="cta-button">
+        <span class="cta-icon">💬</span>
+        <span class="cta-text">Chat with My AI Assistant</span>
+    </a>
+</div>
+
+<!-- Image explanation outside the bio container -->
+<div class="image-explanation">
+    <h3>About My Profile Image</h3>
+    <p>
+        The professional headshot you see was created using AI image generation early in 2024. 
+        I needed a professional photo for LinkedIn, and I did not have one.
+        Instead of buying a suit, and getting a professional photo, I setup a local instance
+        of the Fooocus repo. I took ten selfies as reference photos, and spent about 10 hours
+        generating photos on my computer with an AMD GPU. I obtained a newfound appreciation for 
+        CUDA, and have since gotten an Nvidia GPU.
+    </p>
+    <div class="tech-note">
+        <p><strong>Were you fooled by this AI Photo?</strong> The most "AI" feature of this photo 
+        is the cool lightbar it added on the right. I was prompting for "Professional Lighting", 
+        and it added this random beam of light which I LOVE.</p>
     </div>
 </div>
 {% endblock content %}

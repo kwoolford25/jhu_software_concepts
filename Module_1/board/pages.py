@@ -39,10 +39,10 @@ def projects():
     # Create a list of projects to display
     projects = [
         {
-            "title": "Personal Website with Custom Chatbot",
-            "description": "A Flask-based personal website featuring a custom OpenAI-powered chatbot trained on personal data to answer questions about me.",
-            "github_url": "https://github.com/kwoolford25/jhu_software_concepts/tree/main/Module_1",
-            "technologies": ["Python", "Flask", "HTML/CSS", "OpenAI API"]
+            "title": "Skin Cancer Classification Model",
+            "description": "Distinguishes between malignant and non-malignant skin lesions using image and tabular metadata. Used a pretrained Resnet-50 model for image feature extraction. Combined the output from the image feature extractor and tabular data through fully connected layers for final classification.",
+            "github_url": "https://github.com/Kwoolford/ISIC_2024",
+            "technologies": ["Python", "PyTorch", "Pandas", "Scikit-Learn"]
         },
         # More projects will be added here
     ]
