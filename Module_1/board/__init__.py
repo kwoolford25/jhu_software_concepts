@@ -11,7 +11,7 @@ def create_app():
     load_dotenv()
     
     # Configure secret key for sessions
-    app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
+    app.secret_key = os.getenv("FLASK_SECRET_KEY")
     
     # Make request available in templates for active nav highlighting
     @app.context_processor
