@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, session
 import os
 from dotenv import load_dotenv
 
@@ -11,7 +11,10 @@ def create_app():
     load_dotenv()
     
     # Configure secret key for sessions
-    app.secret_key = os.getenv("FLASK_SECRET_KEY")
+    app.secret_key = os.getenv("FLASK_SECRET_KEY", "development-temporary-key")
+    
+    # Make session modifications save automatically
+    app.config['SESSION_TYPE'] = 'filesystem'
     
     # Make request available in templates for active nav highlighting
     @app.context_processor
