@@ -11,6 +11,10 @@
             Feel free to ask me questions about Kyle's background, skills, projects, or request to see his resume!
         </p>
     </div>
+
+    <div class="chat-info">
+        <p><i class="info-icon">ℹ️</i> This chat interface refreshes with each message due to technical constraints. Your conversation history is preserved. <br> Once JavaScript is integrated no refreshes will be necessary.</p>
+    </div>
     
     <div class="chat-window">
         <div class="chat-messages">
@@ -47,23 +51,28 @@
             {% endif %}
         </div>
         
-        <div class="chat-input-area">
-            <form method="POST" action="{{ url_for('pages.chat') }}">
-                <textarea name="user_message" 
-                          placeholder="Type your message here..." 
-                          maxlength="500"
-                          rows="2"
-                          required></textarea>
-                <div class="chat-buttons">
-                    <button type="submit" name="action" value="reset" title="Reset conversation">
-                        <span>Reset</span>
-                    </button>
-                    <button type="submit" name="action" value="send" title="Send message">
-                        <span>Send</span>
-                    </button>
+            <div class="chat-input-area">
+                <div class="chat-form-container">
+                    <form method="POST" action="{{ url_for('pages.chat') }}" class="message-form">
+                        <textarea name="user_message" 
+                                placeholder="Type your message here..." 
+                                maxlength="500"
+                                rows="2"
+                                required></textarea>
+                        <button type="submit" name="action" value="send" title="Send message" class="send-button">
+                            <span>Send</span>
+                        </button>
+                        <input type="hidden" name="action" value="send">
+                    </form>
+                    
+                    <form method="POST" action="{{ url_for('pages.chat') }}" class="reset-form">
+                        <input type="hidden" name="action" value="reset">
+                        <button type="submit" title="Reset conversation" class="reset-button">
+                            <span>Reset</span>
+                        </button>
+                    </form>
                 </div>
-            </form>
-        </div>
+            </div>
     </div>
     
     <div class="chat-suggestions">
@@ -93,26 +102,138 @@
         </ul>
     </div>
     
-    {% if show_resume %}
-    <div class="resume-section">
-        <h3>Kyle's Resume</h3>
-        <div class="resume-content">
-            <!-- You can put your actual resume content here -->
-            <h4>Education</h4>
-            <p>Johns Hopkins University - MS in Computer Science</p>
-            
-            <h4>Experience</h4>
-            <p>MLOps Engineer - Current Company</p>
-            <p>Previous relevant positions...</p>
-            
-            <h4>Skills</h4>
-            <p>Python, Machine Learning, Flask, OpenAI, etc.</p>
-            
-            <div class="resume-download">
-                <a href="{{ url_for('static', filename='resume.pdf') }}" class="download-button">Download PDF Resume</a>
-            </div>
+{% if show_resume %}
+<div class="resume-section" id="resume">
+    <h3>Kyle Woolford's Resume</h3>
+    
+    <div class="resume-content">
+        <div class="resume-header">
+            <h4>Kyle Woolford</h4>
+            <p class="resume-contact">
+                <a href="mailto:kyle.woolford@gmail.com">kyle.woolford@gmail.com</a> | 
+                <a href="https://www.linkedin.com/in/kyle-woolford-951036232" target="_blank">LinkedIn</a> | 
+                443.690.4280 | 
+                <a href="https://github.com/Kwoolford" target="_blank">GitHub</a>
+            </p>
+            <p class="resume-summary">
+                AI/Machine Learning professional, passionate about deploying AI solutions in real-world healthcare applications to drive innovation and improve patient outcomes. Strong background in Python, ML pipelines, and data engineering, with experience collaborating on high-impact projects in a leading medical research institution.
+            </p>
         </div>
+        
+        <section class="resume-section-content">
+            <h4>Skills</h4>
+            <div class="skills-grid">
+                <div class="skill-row">
+                    <span class="skill-label">Languages:</span>
+                    <span class="skill-value">Python, HTML, R, SQL</span>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-label">AI/ML Frameworks:</span>
+                    <span class="skill-value">PyTorch, NumPy, Pandas, scikit-learn, Matplotlib</span>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-label">MLOps & Infrastructure:</span>
+                    <span class="skill-value">Docker, Databricks, CI/CD, Git</span>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-label">Data Engineering:</span>
+                    <span class="skill-value">Clarity, Caboodle, SQL Server, ETL pipelines</span>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-label">AI/ML Competitions:</span>
+                    <span class="skill-value">Achieved 99.95% accuracy and 96% recall in ISIC 2024 Skin Cancer Detection Competition</span>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-label">Software & Tools:</span>
+                    <span class="skill-value">Tableau, SAS Enterprise Miner, Fortinet, Epic Systems</span>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-label">Operating Systems:</span>
+                    <span class="skill-value">Windows, Linux</span>
+                </div>
+                <div class="skill-row">
+                    <span class="skill-label">Certifications:</span>
+                    <span class="skill-value">SAS Business Intelligence & Analytics, Microsoft Excel Associate, Cisco CCENT, Data Visualization (Python, R, Tableau)</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="resume-section-content">
+            <h4>Education</h4>
+            <div class="resume-item">
+                <div class="resume-item-header">
+                    <h5>Loyola University Maryland</h5>
+                    <span class="resume-location">Baltimore, MD</span>
+                </div>
+                <div class="resume-item-subheader">
+                    <h6>Bachelor of Business Administration</h6>
+                    <span class="resume-date">May 2024</span>
+                </div>
+                <p><strong>Major:</strong> Information Systems and Data Analytics <strong>Minor:</strong> Data Science</p>
+                <p><strong>Honors:</strong> Summa Cum Laude, Dean's List (all semesters), Dean's Scholarship Recipient</p>
+                <p><strong>Relevant Coursework:</strong> Business Intelligence & Data Mining, Statistical Computing, Data Visualization, Python, Data Management & Database Systems</p>
+                <p><strong>Campus Involvement:</strong> Co-President of Loyola Cybersecurity club, hosted cybersecurity Capture the Flags + Hackathon events</p>
+                <p><strong>Awards:</strong> 4th place CyberMaryland CTF, 7th place Capture the Future, 2 top 50 MetaCTF finishes</p>
+            </div>
+        </section>
+        
+        <section class="resume-section-content">
+            <h4>Professional Experience</h4>
+            <div class="resume-item">
+                <div class="resume-item-header">
+                    <h5>Johns Hopkins Medicine</h5>
+                    <span class="resume-location">Baltimore, MD</span>
+                </div>
+                <div class="resume-item-subheader">
+                    <h6>MLOps Programmer Analyst</h6>
+                    <span class="resume-date">December 2024-Present</span>
+                </div>
+                <ul>
+                    <li>Collaborating with a cross-functional team to develop a ML application from scratch.</li>
+                    <li>Contributing to a shared GitHub codebase, working with Azure ML, Prompt Flow, and MLOps best practices.</li>
+                    <li>Assisting in the development of ML pipelines for healthcare applications.</li>
+                    <li>Evaluating pre-trained ML models on historical patient data.</li>
+                    <li>Supporting Docker containerization and model deployment workflows.</li>
+                    <li>Contributing to discussions on model architecture & evaluation.</li>
+                </ul>
+            </div>
+            
+            <div class="resume-item">
+                <div class="resume-item-header">
+                    <h5>R.E. Michel</h5>
+                    <span class="resume-location">Glen Burnie, MD</span>
+                </div>
+                <div class="resume-item-subheader">
+                    <h6>Data Center Technician (Summers + Breaks)</h6>
+                    <span class="resume-date">June 2018-August 2023</span>
+                </div>
+                <ul>
+                    <li>Configured and maintained enterprise IT infrastructure, user hardware, and network topology.</li>
+                    <li>Assisted in the ERP migration to Epicor P21, ensuring smooth system integration.</li>
+                    <li>Supported IT operations by managing Fortinet security applications and software configurations.</li>
+                </ul>
+            </div>
+            
+            <div class="resume-item">
+                <div class="resume-item-header">
+                    <h5>Action Electric</h5>
+                    <span class="resume-location">Aberdeen, MD</span>
+                </div>
+                <div class="resume-item-subheader">
+                    <h6>Electrical Laborer</h6>
+                    <span class="resume-date">June 2017-August 2017</span>
+                </div>
+                <ul>
+                    <li>Assisted with demolition, trenching, and electrical wiring for commercial projects.</li>
+                </ul>
+            </div>
+        </section>
     </div>
-    {% endif %}
+    
+    <div class="resume-download">
+        <a href="{{ url_for('static', filename='resume.pdf') }}" class="download-button" download>Download Resume (PDF)</a>
+    </div>
+</div>
+{% endif %}
 </div>
 {% endblock content %}

@@ -51,13 +51,13 @@ def projects():
 
 @bp.route("/chat", methods=["GET", "POST"])
 def chat():
-    # Initialize session if needed
+    # Initialize session variables
     if "messages" not in session:
         session["messages"] = []
-        
+    
     error = None
     show_resume = False
-    processing = False
+    processing = False  # Default to not processing
     
     if request.method == "POST":
         action = request.form.get("action")
@@ -77,7 +77,7 @@ def chat():
                 session["messages"].append({"role": "user", "content": user_message})
                 session.modified = True
                 
-                # Show processing indicator
+                # Start processing - set flag to true
                 processing = True
                 
                 # Process with OpenAI
@@ -135,10 +135,10 @@ def chat():
                                 if message.role == "assistant":
                                     response_text = message.content[0].text.value
                                     
-                                    # Check for resume trigger
                                     if "resume=true" in response_text.lower():
-                                        assistant_response = "I'd be happy to show you Kyle's resume!"
+                                        assistant_response = "I'd be happy to show you Kyle's resume! You can find it at the bottom of the page."
                                         show_resume = True
+                                        session.modified = True
                                     else:
                                         assistant_response = response_text
                                         
@@ -157,8 +157,12 @@ def chat():
                             )
                             error = f"Error: Assistant run failed with status {run.status}. Details: {run_details}"
                             logging.error(f"OpenAI run failed: {run_details}")
-                            
+                    
+                    # Reset Processing Bar
+                    processing = False    
+
                 except Exception as e:
+                    processing = False
                     error_details = traceback.format_exc()
                     logging.error(f"Exception in chat: {str(e)}\n{error_details}")
                     error = f"An error occurred: {str(e)}"
