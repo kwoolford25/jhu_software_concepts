@@ -1,60 +1,31 @@
-# Personal Website with AI Assistant
+# Kyle Woolford's Personal Website
 
-This is my personal website built with Flask for JHU EP 605.256 – Modern Software Concepts.
+A Flask-based personal website with an OpenAI-powered chatbot assistant.
 
-## Features
-
-- Personal bio and professional information
-- Project showcase
-- Contact information
-- Interactive AI assistant chatbot
-
-## Setup Instructions
+## Quick Setup
 
 ### Prerequisites
-
-- Python 3.10 or higher
-- OpenAI API key (for chatbot functionality)
+- Python 3.10+
+- OpenAI API key
 
 ### Installation
 
-1. Clone the repository
-2. Create a virtual environment:
+1. **Clone and navigate to the repository**
+   ```bash
+   git clone https://github.com/kwoolford25/jhu_software_concepts.git
+   cd jhu_software_concepts/Module_1
+
+2. **Set up a Python environment**
     python -m venv venv
-3. Activate the virtual environment:
-- Windows: `venv\Scripts\activate`
-- macOS/Linux: `source venv/bin/activate`
-4. Install dependencies:
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
     pip install -r requirements.txt
-5. Create a `.env` file in the project root (copy from `.env.example`):
-    SECRET_KEY=your_secret_key_here
 
-    OpenAI API Configuration
-    OPENAI_API_KEY=your_api_key_here
-    OPENAI_MODEL=gpt-3.5-turbo
-    MAX_TOKENS_PER_REQUEST=150
-6. Replace `your_api_key_here` with your actual OpenAI API key
-7. Generate a random secret key (you can use `python -c "import secrets; print(secrets.token_hex(16))"`)
+3. **Configure environment variables**
+    Create a .env file with the format of .envsample
+    FLASK_SECRET_KEY=(Generate with python -c "import secrets; print(secrets.token_hex(16))")
+    OPENAI_API_KEY=your_openai_api_key
+    ASSISTANT_ID=your_openai_assistant_id
 
-### Running the Application
-
-Run the application with:
-    python run.py
-
+4. **Run the Website**
+python run.py
 The website will be available at http://127.0.0.1:5000/
-
-## Chatbot Functionality
-
-The chatbot is powered by OpenAI's API and can:
-- Answer questions about my background and skills
-- Provide information about my projects
-- Show my resume when requested
-
-## Note for Instructors
-
-To test the chatbot functionality, you'll need to:
-1. Create a `.env` file as described above
-2. Add your own OpenAI API key
-3. Run the application
-
-If you don't have an OpenAI API key, the chatbot will display a message indicating it's not configured.

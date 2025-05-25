@@ -18,7 +18,7 @@ def home():
     return render_template(
         "pages/home.html",
         name="Kyle Woolford",
-        position="MLOps Programmer Analyst at Johns Hopkins",
+        position="MLOps Programmer Analyst at Johns Hopkins - (Started Dec. 2024)",
     )
 
 # Route for contact page
@@ -40,7 +40,7 @@ def projects():
     projects = [
         {
             "title": "Skin Cancer Classification Model",
-            "description": "Distinguishes between malignant and non-malignant skin lesions using image and tabular metadata. Used a pretrained Resnet-50 model for image feature extraction. Combined the output from the image feature extractor and tabular data through fully connected layers for final classification.",
+            "description": "Distinguishes between malignant and non-malignant skin lesions using image and tabular metadata. Used a pretrained Resnet-50 model for image feature extraction. The image output + tabular data is combined into fully connected layers for final classification.",
             "github_url": "https://github.com/Kwoolford/ISIC_2024",
             "technologies": ["Python", "PyTorch", "Pandas", "Scikit-Learn"]
         },

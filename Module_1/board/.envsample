@@ -1,0 +1,4 @@
+# OpenAI API Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+ASSISTANT_ID=your_assistant_id_here
+FLASK_SECRET_KEY= Generate a secret key with: python -c "import secrets; print(secrets.token_hex(16))"
