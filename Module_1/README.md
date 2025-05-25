@@ -7,6 +7,7 @@ A Flask-based personal website with an OpenAI-powered chatbot assistant.
 ### Prerequisites
 - Python 3.10+
 - OpenAI API key
+- OpenAI Assistant ID
 
 ### Installation
 
@@ -21,7 +22,7 @@ A Flask-based personal website with an OpenAI-powered chatbot assistant.
     pip install -r requirements.txt
 
 3. **Configure environment variables**
-    Create a .env file with the format of .envsample
+    Create a .env file following the format of .envsample
     FLASK_SECRET_KEY=(Generate with python -c "import secrets; print(secrets.token_hex(16))")
     OPENAI_API_KEY=your_openai_api_key
     ASSISTANT_ID=your_openai_assistant_id
