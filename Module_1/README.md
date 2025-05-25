@@ -2,6 +2,8 @@
 
 A Flask-based personal website with an OpenAI-powered chatbot assistant.
 
+### Liv approved adding the chat bot to the website!
+
 ## Quick Setup
 
 ### Prerequisites
