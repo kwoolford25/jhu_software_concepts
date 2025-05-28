@@ -1,12 +1,19 @@
-from urllib.request import urlopen
+from urllib import parse, robotparser
 import json
 
+agent = 'Kyle'
 url = "https://api.weather.gov/gridpoints/LWX/96,70/forecast/hourly"
 
-page = urlopen(url)
+# Parser setup
+parser = robotparser.RobotFileParser(url)
+parser.set_url(parse.urljoin(url, 'robots.txt'))
 
-html_bytes = page.read()
+paths = [
+    "/",
+    "/cgi-bin/",
+    "/admin/",
+    "survey/?program=Computer+Science"
+]
 
-washington_weather = json.loads(html_bytes)
-
-print(f"Current Temperature in D.C is {washington_weather['properties']['periods'][0]['temperature']}")
+for path in paths:
+    print(f"{parser.can_fetch(agent, path), path}")
