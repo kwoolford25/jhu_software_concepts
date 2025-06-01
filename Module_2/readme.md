@@ -1,10 +1,8 @@
 # Grad Cafe Data Scraper
 
-## Programmer
-### Kyle Woolford - JHED: kwoolfo4@jh.edu
+## Programmer - Kyle Woolford - JHED: kwoolfo4@jh.edu
 
-## Module Info
-### Module 2 - Web Scraping - Due Date: 6/1/25 11:59PM
+## Module 2 - Web Scraping - Due Date: 6/1/25 11:59PM
 
 ## Approach
 
@@ -202,7 +200,7 @@ Check robots.txt directly:
 python utils/check_robots.py
 ```
 
-Return a single page from website:
+Return a single page from website to guide parsing logic:
 ```bash
 python exploration/site_structure_exploration.py
 ```
