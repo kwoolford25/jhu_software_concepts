@@ -94,7 +94,7 @@ Check robots.txt directly:
 python utils/check_robots.py
 ```
 
-Explore site structure:
+Return a single page from website:
 ```bash
 python exploration/site_structure_exploration.py
 ```
