@@ -1,22 +1,49 @@
+"""
+Data processor module for The Grad Cafe data.
+
+This module contains functions to clean and process raw data scraped
+from The Grad Cafe website.
+"""
+
 import json
 import re
 import os
+import logging
 from datetime import datetime
 
+# Set up logger
+logger = logging.getLogger(__name__)
+
 def load_raw_data(filename="raw_applicant_data.json"):
-    """Load raw data from a JSON file."""
+    """
+    Load raw data from a JSON file.
+    
+    Args:
+        filename: Path to the file containing raw data
+    
+    Returns:
+        List of dictionaries containing raw data
+    """
     if not os.path.exists(filename):
-        print(f"File {filename} not found.")
+        logger.error(f"File {filename} not found.")
         return []
     
     with open(filename, 'r', encoding='utf-8') as f:
         data = json.load(f)
     
-    print(f"Loaded {len(data)} entries from {filename}")
+    logger.info(f"Loaded {len(data)} entries from {filename}")
     return data
 
 def clean_data(data):
-    """Clean and standardize the scraped data."""
+    """
+    Clean and standardize the scraped data.
+    
+    Args:
+        data: List of dictionaries containing raw data
+    
+    Returns:
+        List of dictionaries containing cleaned data
+    """
     cleaned_data = []
     
     for item in data:
@@ -52,9 +79,9 @@ def clean_data(data):
                     day = date_parts[1].zfill(2)
                     year = date_parts[2]
                     cleaned_item['date_added'] = f"{year}-{month}-{day}"
-            except:
+            except Exception as e:
                 # Keep original if parsing fails
-                pass
+                logger.warning(f"Failed to parse date_added: {cleaned_item['date_added']}. Error: {str(e)}")
         
         # Clean decision date
         if cleaned_item['decision_date']:
@@ -77,9 +104,9 @@ def clean_data(data):
                         year = str(datetime.now().year)
                     
                     cleaned_item['decision_date'] = f"{year}-{month}-{day}"
-            except:
+            except Exception as e:
                 # Keep original if parsing fails
-                pass
+                logger.warning(f"Failed to parse decision_date: {cleaned_item['decision_date']}. Error: {str(e)}")
         
         # Extract program start year and semester from season
         if cleaned_item['season']:
@@ -110,22 +137,13 @@ def clean_data(data):
     return cleaned_data
 
 def save_data(data, filename="applicant_data.json"):
-    """Save cleaned data to a JSON file."""
+    """
+    Save cleaned data to a JSON file.
+    
+    Args:
+        data: List of dictionaries containing cleaned data
+        filename: Path to save the data
+    """
     with open(filename, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"Cleaned data saved to {filename}")
-
-if __name__ == "__main__":
-    # Load raw data
-    raw_data = load_raw_data()
-    
-    if raw_data:
-        # Clean the data
-        cleaned_data = clean_data(raw_data)
-        
-        # Save the cleaned data
-        save_data(cleaned_data)
-        
-        print(f"Successfully cleaned and saved {len(cleaned_data)} entries.")
-    else:
-        print("No raw data to clean.")
+    logger.info(f"Cleaned data saved to {filename}")

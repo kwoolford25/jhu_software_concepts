@@ -1,27 +1,47 @@
+"""
+Scraper module for The Grad Cafe.
+
+This module contains functions to scrape graduate school admission data
+from The Grad Cafe website.
+"""
+
 import urllib3
 from bs4 import BeautifulSoup
 import time
 import json
 import re
 import os
+import logging
 
-def check_robots_txt():
-    """Check the robots.txt file to ensure scraping is permitted."""
+# Set up logger
+logger = logging.getLogger(__name__)
+
+def check_robots_txt(robots_txt_file="robots_txt.txt", robots_screenshot_file="robots_verification.jpg"):
+    """
+    Check the robots.txt file to ensure scraping is permitted.
+    
+    Args:
+        robots_txt_file: Path to save the robots.txt content
+        robots_screenshot_file: Path to save the robots.txt screenshot
+    
+    Returns:
+        String containing the robots.txt content or None if error
+    """
     http = urllib3.PoolManager()
     response = http.request('GET', 'https://www.thegradcafe.com/robots.txt')
     if response.status != 200:
-        print(f"Error accessing robots.txt: Status code {response.status}")
+        logger.error(f"Error accessing robots.txt: Status code {response.status}")
         return None
     
     robots_txt = response.data.decode('utf-8')
-    print(f"Successfully accessed robots.txt")
+    logger.info(f"Successfully accessed robots.txt")
     
     # Save the robots.txt content to a file for reference
-    with open('robots_txt.txt', 'w') as f:
+    with open(robots_txt_file, 'w') as f:
         f.write(robots_txt)
     
     # Take a screenshot (this will be a text representation for now)
-    with open('screenshot.jpg', 'w') as f:
+    with open(robots_screenshot_file, 'w') as f:
         f.write("Screenshot of robots.txt content:\n\n")
         f.write(robots_txt)
     
@@ -31,6 +51,9 @@ def load_existing_data(filename="applicant_data.json"):
     """
     Load existing data to prevent duplicate scraping.
     
+    Args:
+        filename: Path to the file containing existing data
+    
     Returns:
         List of dictionaries containing previously scraped data
         Set of URLs already scraped
@@ -38,12 +61,12 @@ def load_existing_data(filename="applicant_data.json"):
     try:
         with open(filename, 'r', encoding='utf-8') as f:
             existing_data = json.load(f)
-            print(f"Loaded {len(existing_data)} existing entries from {filename}")
+            logger.info(f"Loaded {len(existing_data)} existing entries from {filename}")
             # Extract URLs for quick duplicate checking
             existing_urls = set(item['url'] for item in existing_data if 'url' in item and item['url'])
             return existing_data, existing_urls
     except (FileNotFoundError, json.JSONDecodeError):
-        print(f"No existing data found in {filename} or file is invalid.")
+        logger.warning(f"No existing data found in {filename} or file is invalid.")
         return [], set()
 
 def scrape_data(query="computer+science", max_pages=500, delay=1, existing_urls=None):
@@ -68,35 +91,35 @@ def scrape_data(query="computer+science", max_pages=500, delay=1, existing_urls=
     
     for page in range(1, max_pages + 1):
         url = f"{base_url}?q={query}&page={page}"
-        print(f"Scraping page {page}: {url}")
+        logger.info(f"Scraping page {page}: {url}")
         
         response = http.request('GET', url)
         if response.status != 200:
-            print(f"Error accessing page {page}: Status code {response.status}")
+            logger.error(f"Error accessing page {page}: Status code {response.status}")
             break
         
         soup = BeautifulSoup(response.data, 'html.parser')
         
         # Check if we've reached the end of results
         if "No results found" in soup.text:
-            print("No more results found.")
+            logger.info("No more results found.")
             break
         
         # Extract results from the current page
         results = extract_results(soup, existing_urls)
         if not results:
-            print("No new results extracted from this page.")
+            logger.info("No new results extracted from this page.")
             # Continue to next page instead of breaking - there might be more results
             # on later pages that aren't in our existing data
             time.sleep(delay)
             continue
         
         all_results.extend(results)
-        print(f"Total new results so far: {len(all_results)}")
+        logger.info(f"Total new results so far: {len(all_results)}")
         
         # Stop if we have enough entries (including existing ones)
         if len(all_results) + len(existing_urls) >= 10000:
-            print(f"Reached target number of entries: {len(all_results) + len(existing_urls)}")
+            logger.info(f"Reached target number of entries: {len(all_results) + len(existing_urls)}")
             break
         
         # Be nice to the server
@@ -287,10 +310,16 @@ def extract_results(soup, existing_urls=None):
     return results
 
 def save_raw_data(data, filename="raw_applicant_data.json"):
-    """Save raw data to a JSON file."""
+    """
+    Save raw data to a JSON file.
+    
+    Args:
+        data: List of dictionaries containing raw data
+        filename: Path to save the data
+    """
     with open(filename, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"Raw data saved to {filename}")
+    logger.info(f"Raw data saved to {filename}")
 
 def merge_with_existing_data(new_data, existing_data):
     """
@@ -304,29 +333,3 @@ def merge_with_existing_data(new_data, existing_data):
         Combined list of data entries
     """
     return existing_data + new_data
-
-if __name__ == "__main__":
-    # Check robots.txt first
-    robots = check_robots_txt()
-    
-    # If robots.txt allows scraping, proceed
-    if robots and "/survey/" not in robots:
-        # Load existing data to avoid duplicates
-        existing_data, existing_urls = load_existing_data()
-        
-        # Scrape new data
-        new_data = scrape_data(query="computer+science", max_pages=500, delay=2, existing_urls=existing_urls)
-        
-        # Save raw data (just the new data)
-        save_raw_data(new_data, "raw_applicant_data.json")
-        
-        # Merge with existing data
-        all_data = merge_with_existing_data(new_data, existing_data)
-        
-        # Save the combined raw data for cleaning
-        save_raw_data(all_data, "all_raw_applicant_data.json")
-        
-        print(f"Successfully scraped {len(new_data)} new entries.")
-        print(f"Total entries: {len(all_data)}")
-    else:
-        print("Scraping is not allowed by robots.txt or couldn't access it.")
