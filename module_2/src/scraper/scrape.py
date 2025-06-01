@@ -15,13 +15,12 @@ import logging
 # Set up logger
 logger = logging.getLogger(__name__)
 
-def check_robots_txt(robots_txt_file="robots_txt.txt", robots_screenshot_file="robots_verification.jpg"):
+def check_robots_txt(robots_txt_file="robots_txt.txt"):
     """
     Check the robots.txt file to ensure scraping is permitted.
     
     Args:
         robots_txt_file: Path to save the robots.txt content
-        robots_screenshot_file: Path to save the robots.txt screenshot
     
     Returns:
         String containing the robots.txt content or None if error
@@ -37,11 +36,6 @@ def check_robots_txt(robots_txt_file="robots_txt.txt", robots_screenshot_file="r
     
     # Save the robots.txt content to a file for reference
     with open(robots_txt_file, 'w') as f:
-        f.write(robots_txt)
-    
-    # Take a screenshot (this will be a text representation for now)
-    with open(robots_screenshot_file, 'w') as f:
-        f.write("Screenshot of robots.txt content:\n\n")
         f.write(robots_txt)
     
     return robots_txt

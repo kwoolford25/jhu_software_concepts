@@ -55,12 +55,11 @@ def main():
     raw_data_file = os.path.join(raw_data_dir, 'raw_applicant_data.json')
     processed_data_file = os.path.join(processed_data_dir, 'applicant_data.json')
     robots_txt_file = os.path.join(docs_dir, 'robots_txt.txt')
-    robots_screenshot_file = os.path.join(docs_dir, 'robots_verification.jpg')
     
     if not args.skip_scrape:
         # Check robots.txt first
         logger.info("Checking robots.txt...")
-        robots = check_robots_txt(robots_txt_file, robots_screenshot_file)
+        robots = check_robots_txt(robots_txt_file)
         
         # If robots.txt allows scraping, proceed
         if robots and "/survey/" not in robots:
