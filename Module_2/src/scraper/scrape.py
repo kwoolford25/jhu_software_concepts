@@ -10,7 +10,6 @@ from bs4 import BeautifulSoup
 import time
 import json
 import re
-import os
 import logging
 
 # Set up logger
@@ -34,7 +33,7 @@ def check_robots_txt(robots_txt_file="robots_txt.txt", robots_screenshot_file="r
         return None
     
     robots_txt = response.data.decode('utf-8')
-    logger.info(f"Successfully accessed robots.txt")
+    logger.info("Successfully accessed robots.txt")
     
     # Save the robots.txt content to a file for reference
     with open(robots_txt_file, 'w') as f:
