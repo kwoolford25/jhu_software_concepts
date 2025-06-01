@@ -147,3 +147,23 @@ def save_data(data, filename="applicant_data.json"):
     with open(filename, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     logger.info(f"Cleaned data saved to {filename}")
+
+def load_data(filename="applicant_data.json"):
+    """
+    Load cleaned data from a JSON file.
+    
+    Args:
+        filename: Path to the file containing cleaned data
+    
+    Returns:
+        List of dictionaries containing cleaned data
+    """
+    if not os.path.exists(filename):
+        logger.error(f"File {filename} not found.")
+        return []
+    
+    with open(filename, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    logger.info(f"Loaded {len(data)} cleaned entries from {filename}")
+    return data
