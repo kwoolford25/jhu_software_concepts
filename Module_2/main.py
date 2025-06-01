@@ -1,3 +1,10 @@
+"""
+Main entry point for the Grad Cafe data scraper.
+
+This script orchestrates the scraping and processing of graduate school
+admission data from The Grad Cafe website.
+"""
+
 import os
 import argparse
 import logging
@@ -46,7 +53,6 @@ def main():
             os.makedirs(directory)
     
     raw_data_file = os.path.join(raw_data_dir, 'raw_applicant_data.json')
-    all_raw_data_file = os.path.join(raw_data_dir, 'all_raw_applicant_data.json')
     processed_data_file = os.path.join(processed_data_dir, 'applicant_data.json')
     robots_txt_file = os.path.join(docs_dir, 'robots_txt.txt')
     robots_screenshot_file = os.path.join(docs_dir, 'robots_verification.jpg')
@@ -67,25 +73,24 @@ def main():
             logger.info(f"Scraping data with query: {args.query}, max_pages: {args.max_pages}, delay: {args.delay}...")
             new_data = scrape_data(query=args.query, max_pages=args.max_pages, delay=args.delay, existing_urls=existing_urls)
             
-            # Save raw data (just the new data)
-            logger.info(f"Saving {len(new_data)} new entries to {raw_data_file}...")
-            save_raw_data(new_data, raw_data_file)
-            
-            # Merge with existing data
-            all_data = merge_with_existing_data(new_data, existing_data)
-            
-            # Save the combined raw data for cleaning
-            logger.info(f"Saving {len(all_data)} total entries to {all_raw_data_file}...")
-            save_raw_data(all_data, all_raw_data_file)
-            
-            logger.info(f"Successfully scraped {len(new_data)} new entries. Total entries: {len(all_data)}")
+            if new_data:
+                # Merge with existing data
+                all_data = merge_with_existing_data(new_data, existing_data)
+                
+                # Save the combined raw data
+                logger.info(f"Saving {len(all_data)} total entries to {raw_data_file}...")
+                save_raw_data(all_data, raw_data_file)
+                
+                logger.info(f"Successfully scraped {len(new_data)} new entries. Total entries: {len(all_data)}")
+            else:
+                logger.info("No new data was scraped.")
         else:
             logger.error("Scraping is not allowed by robots.txt or couldn't access it.")
     
     if not args.skip_clean:
         # Load raw data
-        logger.info(f"Loading raw data from {all_raw_data_file}...")
-        raw_data = load_raw_data(all_raw_data_file)
+        logger.info(f"Loading raw data from {raw_data_file}...")
+        raw_data = load_raw_data(raw_data_file)
         
         if raw_data:
             # Clean the data
