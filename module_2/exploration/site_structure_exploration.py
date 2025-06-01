@@ -7,9 +7,6 @@ from bs4 import BeautifulSoup
 import os
 import sys
 
-# Add parent directory to path so we can import from src
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 def explore_cs_results_page():
     """Explore the Computer Science results page structure."""
     # Create output directory if it doesn't exist
@@ -57,8 +54,13 @@ def explore_cs_results_page():
     if robots_response.status == 200:
         print("Successfully accessed robots.txt")
         print(robots_response.data.decode('utf-8'))
+        
+        # Create docs directory if it doesn't exist
+        docs_dir = os.path.join(os.path.dirname(os.path.dirname(output_dir)), 'module_2/docs')
+        os.makedirs(docs_dir, exist_ok=True)
+        
         # Save robots.txt for reference
-        robots_file = os.path.join(os.path.dirname(os.path.dirname(output_dir)), 'docs', 'robots_txt.txt')
+        robots_file = os.path.join(docs_dir, 'robots_txt.txt')
         with open(robots_file, 'w') as f:
             f.write(robots_response.data.decode('utf-8'))
         print(f"Saved robots.txt to {robots_file}")
