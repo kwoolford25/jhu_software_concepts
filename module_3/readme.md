@@ -1,0 +1,1 @@
+Hello, opening commit. Week was crazy busy but I am here and ready to run a local database!
