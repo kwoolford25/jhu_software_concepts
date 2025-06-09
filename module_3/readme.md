@@ -54,7 +54,7 @@ This project analyzes graduate school application data from GradCafe using Postg
 
 ## Data Analysis Questions
 
-The application answers the following questions:
+The application answers the following questions: (reference the query_exploration.pdf for results)
 1. How many entries do you have in your database who have applied for Fall 2024?
 2. What percentage of entries are from international students?
 3. What is the average GPA, GRE, GRE V, GRE AW of applicants who provide these metrics?
