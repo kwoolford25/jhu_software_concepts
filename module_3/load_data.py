@@ -13,7 +13,7 @@ def load_data_to_postgres():
     db_params = {
         'dbname': 'gradcafe_db',
         'user': 'postgres',
-        'password': 'your_password',  # Change this to your password
+        'password': 'password', 
         'host': 'localhost',
         'port': '5432'
     }
