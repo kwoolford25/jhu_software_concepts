@@ -6,7 +6,7 @@ def get_db_connection():
     conn = psycopg2.connect(
         dbname="gradcafe_db",
         user="postgres",
-        password="password",  # Change this
+        password="password",
         host="localhost",
         port="5432"
     )
