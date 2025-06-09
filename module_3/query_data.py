@@ -50,7 +50,7 @@ def get_average_metrics():
     """What is the average GPA, GRE, GRE V, GRE AW of applicants who provide these metrics?"""
     query = """
     SELECT 
-        ROUND(AVG(gpa)::numeric, 2) as avg_gpa,
+        ROUND(AVG(CASE WHEN gpa BETWEEN 0 AND 4 THEN gpa ELSE NULL END)::numeric, 2) as avg_gpa,
         ROUND(AVG(gre)::numeric, 2) as avg_gre,
         ROUND(AVG(gre_v)::numeric, 2) as avg_gre_v,
         ROUND(AVG(gre_aw)::numeric, 2) as avg_gre_aw
@@ -62,7 +62,7 @@ def get_average_metrics():
 def get_american_fall_2024_avg_gpa():
     """What is their average GPA of American students in Fall 2024?"""
     query = """
-    SELECT ROUND(AVG(gpa)::numeric, 2) as avg_gpa
+    SELECT ROUND(AVG(CASE WHEN gpa BETWEEN 0 AND 4 THEN gpa ELSE NULL END)::numeric, 2) as avg_gpa
     FROM applicants
     WHERE us_or_international = 'American' AND term LIKE '%Fall 2024%' AND gpa IS NOT NULL
     """
@@ -87,7 +87,7 @@ def get_fall_2024_acceptance_percentage():
 def get_fall_2024_accepted_avg_gpa():
     """What is the average GPA of applicants who applied for Fall 2024 who are Acceptances?"""
     query = """
-    SELECT ROUND(AVG(gpa)::numeric, 2) as avg_gpa
+    SELECT ROUND(AVG(CASE WHEN gpa BETWEEN 0 AND 4 THEN gpa ELSE NULL END)::numeric, 2) as avg_gpa
     FROM applicants
     WHERE (status = 'Accepted' OR status LIKE '%Accept%') 
     AND term LIKE '%Fall 2024%' 
@@ -101,7 +101,11 @@ def get_jhu_cs_masters_count():
     query = """
     SELECT COUNT(*) as count
     FROM applicants
-    WHERE program LIKE '%JHU%' AND program LIKE '%Computer Science%' 
+    WHERE (program LIKE '%JHU%' OR 
+           program LIKE '%Johns Hopkins%' OR 
+           program LIKE '%John Hopkins%' OR
+           program LIKE '%Hopkins University%') 
+    AND program LIKE '%Computer Science%' 
     AND degree LIKE '%Master%'
     """
     result = execute_query(query)
