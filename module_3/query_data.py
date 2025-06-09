@@ -37,7 +37,7 @@ def get_international_percentage():
     SELECT 
         ROUND(
             (COUNT(*) FILTER (WHERE us_or_international = 'International') * 100.0) / 
-            NULLIF(COUNT(*), 0), 
+            NULLIF(COUNT(*), 0)::numeric, 
             2
         ) as international_percentage
     FROM applicants
@@ -50,10 +50,10 @@ def get_average_metrics():
     """What is the average GPA, GRE, GRE V, GRE AW of applicants who provide these metrics?"""
     query = """
     SELECT 
-        ROUND(AVG(gpa), 2) as avg_gpa,
-        ROUND(AVG(gre), 2) as avg_gre,
-        ROUND(AVG(gre_v), 2) as avg_gre_v,
-        ROUND(AVG(gre_aw), 2) as avg_gre_aw
+        ROUND(AVG(gpa)::numeric, 2) as avg_gpa,
+        ROUND(AVG(gre)::numeric, 2) as avg_gre,
+        ROUND(AVG(gre_v)::numeric, 2) as avg_gre_v,
+        ROUND(AVG(gre_aw)::numeric, 2) as avg_gre_aw
     FROM applicants
     WHERE gpa IS NOT NULL OR gre IS NOT NULL OR gre_v IS NOT NULL OR gre_aw IS NOT NULL
     """
@@ -62,7 +62,7 @@ def get_average_metrics():
 def get_american_fall_2024_avg_gpa():
     """What is their average GPA of American students in Fall 2024?"""
     query = """
-    SELECT ROUND(AVG(gpa), 2) as avg_gpa
+    SELECT ROUND(AVG(gpa)::numeric, 2) as avg_gpa
     FROM applicants
     WHERE us_or_international = 'American' AND term LIKE '%Fall 2024%' AND gpa IS NOT NULL
     """
@@ -75,7 +75,7 @@ def get_fall_2024_acceptance_percentage():
     SELECT 
         ROUND(
             (COUNT(*) FILTER (WHERE status = 'Accepted' OR status LIKE '%Accept%') * 100.0) / 
-            NULLIF(COUNT(*), 0), 
+            NULLIF(COUNT(*), 0)::numeric, 
             2
         ) as acceptance_percentage
     FROM applicants
@@ -87,7 +87,7 @@ def get_fall_2024_acceptance_percentage():
 def get_fall_2024_accepted_avg_gpa():
     """What is the average GPA of applicants who applied for Fall 2024 who are Acceptances?"""
     query = """
-    SELECT ROUND(AVG(gpa), 2) as avg_gpa
+    SELECT ROUND(AVG(gpa)::numeric, 2) as avg_gpa
     FROM applicants
     WHERE (status = 'Accepted' OR status LIKE '%Accept%') 
     AND term LIKE '%Fall 2024%' 

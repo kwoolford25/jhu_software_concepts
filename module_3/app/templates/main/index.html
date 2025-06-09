@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}GradCafe Data Analysis Results{% endblock %}
+
+{% block content %}
+<h1>GradCafe Data Analysis Results</h1>
+
+<div class="results-grid">
+    <div class="card">
+        <h2>1. Fall 2024 Applications</h2>
+        <p class="result">{{ results.fall_2024_count }}</p>
+        <p class="description">Number of entries in the database who have applied for Fall 2024.</p>
+    </div>
+    
+    <div class="card">
+        <h2>2. International Student Percentage</h2>
+        <p class="result">{{ results.international_percentage }}%</p>
+        <p class="description">Percentage of entries from international students.</p>
+    </div>
+    
+    <div class="card">
+        <h2>3. Average Metrics</h2>
+        <div class="metrics">
+            <div class="metric-item">
+                <span class="metric-label">GPA:</span>
+                <span class="metric-value">{{ results.average_metrics.avg_gpa }}</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">GRE Quant:</span>
+                <span class="metric-value">{{ results.average_metrics.avg_gre }}</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">GRE Verbal:</span>
+                <span class="metric-value">{{ results.average_metrics.avg_gre_v }}</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">GRE AW:</span>
+                <span class="metric-value">{{ results.average_metrics.avg_gre_aw }}</span>
+            </div>
+        </div>
+        <p class="description">Average GPA, GRE, GRE V, GRE AW of applicants who provide these metrics.</p>
+    </div>
+    
+    <div class="card">
+        <h2>4. American Fall 2024 Average GPA</h2>
+        <p class="result">{{ results.american_fall_2024_avg_gpa }}</p>
+        <p class="description">Average GPA of American students applying for Fall 2024.</p>
+    </div>
+    
+    <div class="card">
+        <h2>5. Fall 2024 Acceptance Percentage</h2>
+        <p class="result">{{ results.fall_2024_acceptance_percentage }}%</p>
+        <p class="description">Percentage of Fall 2024 entries that are Acceptances.</p>
+    </div>
+    
+    <div class="card">
+        <h2>6. Fall 2024 Accepted Average GPA</h2>
+        <p class="result">{{ results.fall_2024_accepted_avg_gpa }}</p>
+        <p class="description">Average GPA of applicants who applied for Fall 2024 who were accepted.</p>
+    </div>
+    
+    <div class="card">
+        <h2>7. JHU CS Masters Applications</h2>
+        <p class="result">{{ results.jhu_cs_masters_count }}</p>
+        <p class="description">Number of entries from applicants who applied to JHU for masters degrees in Computer Science.</p>
+    </div>
+</div>
+
+<div class="limitations-section">
+    <h2>Data Limitations</h2>
+    <p>
+        The analysis of anonymously submitted data from GradCafe presents several inherent limitations that affect the reliability and generalizability of our findings. First, there is a significant self-selection bias, as individuals who choose to report their application outcomes on GradCafe are not representative of the entire applicant pool. Successful applicants with higher scores are more likely to share their results, creating an upward bias in metrics like GPA and GRE scores.
+    </p>
+    <p>
+        Furthermore, the data suffers from incompleteness and inconsistency issues. Many entries lack critical information such as GPA or standardized test scores, limiting the sample size for certain analyses. The free-form nature of submissions also leads to inconsistencies in how information is reported, making it difficult to standardize and compare across entries. These limitations highlight the need for caution when interpreting results from such data sources and underscore the importance of considering these analyses as exploratory rather than definitive.
+    </p>
+</div>
+{% endblock %}
