@@ -1,4 +1,5 @@
 import pytest
+from src.order import Order
 
 @pytest.mark.order
 @pytest.mark.pizza
