@@ -10,6 +10,7 @@ Order Module
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __init__, __str__
 
 Pizza Module
 -----------
@@ -18,3 +19,4 @@ Pizza Module
    :members:
    :undoc-members:
    :show-inheritance:
+   :special-members: __init__, __str__
