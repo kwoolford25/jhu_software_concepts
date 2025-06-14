@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.pizza &mdash; Pizza Ordering System 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Pizza Ordering System
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Pizza Ordering System</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.pizza</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.pizza</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="Pizza">
+<a class="viewcode-back" href="../../pizza.html#src.pizza.Pizza">[docs]</a>
+<span></span><span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pizza class for creating and managing pizza objects.</span>
+<span class="sd">    </span>
+<span class="sd">    This class handles the creation of pizza objects with various</span>
+<span class="sd">    ingredients and calculates the cost based on the selected options.</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        crust (str): Type of crust (thin, thick, or gluten_free)</span>
+<span class="sd">        sauce (list): List of sauces (marinara, pesto, liv_sauce)</span>
+<span class="sd">        cheese (str): Type of cheese (only mozzarella supported)</span>
+<span class="sd">        toppings (list): List of toppings (pineapple, pepperoni, mushrooms)</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; pizza = Pizza(&quot;thin&quot;, [&quot;marinara&quot;], &quot;mozzarella&quot;, [&quot;pepperoni&quot;])</span>
+<span class="sd">        &gt;&gt;&gt; print(pizza)</span>
+<span class="sd">        Thin crust pizza with marinara sauce, mozzarella cheese, and pepperoni. Cost: $9</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Define price constants</span>
+    <span class="n">CRUST_PRICES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;thin&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s2">&quot;thick&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="s2">&quot;gluten_free&quot;</span><span class="p">:</span> <span class="mi">8</span>
+    <span class="p">}</span>
+    
+    <span class="n">SAUCE_PRICES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;marinara&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;pesto&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;liv_sauce&quot;</span><span class="p">:</span> <span class="mi">5</span>
+    <span class="p">}</span>
+    
+    <span class="n">TOPPING_PRICES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;pineapple&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;pepperoni&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;mushrooms&quot;</span><span class="p">:</span> <span class="mi">3</span>
+    <span class="p">}</span>
+    
+<div class="viewcode-block" id="Pizza.__init__">
+<a class="viewcode-back" href="../../pizza.html#src.pizza.Pizza.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crust</span><span class="p">,</span> <span class="n">sauce</span><span class="p">,</span> <span class="n">cheese</span><span class="p">,</span> <span class="n">toppings</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a pizza with specified ingredients.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            crust (str): Type of crust (thin, thick, or gluten_free)</span>
+<span class="sd">            sauce (list): List of sauces (marinara, pesto, liv_sauce)</span>
+<span class="sd">            cheese (str): Type of cheese (only mozzarella supported)</span>
+<span class="sd">            toppings (list): List of toppings (pineapple, pepperoni, mushrooms)</span>
+<span class="sd">            </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If any ingredient is invalid or if required ingredients are missing</span>
+<span class="sd">            </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; pizza = Pizza(&quot;thin&quot;, [&quot;marinara&quot;], &quot;mozzarella&quot;, [&quot;pepperoni&quot;])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Validate inputs</span>
+        <span class="k">if</span> <span class="n">crust</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">CRUST_PRICES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid crust type: </span><span class="si">{</span><span class="n">crust</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sauce</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAUCE_PRICES</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid sauce type: </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                
+        <span class="k">if</span> <span class="n">cheese</span> <span class="o">!=</span> <span class="s2">&quot;mozzarella&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only mozzarella cheese is supported&quot;</span><span class="p">)</span>
+            
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">toppings</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">TOPPING_PRICES</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid topping: </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Ensure at least one sauce and one topping</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sauce</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pizza must include at least one sauce&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">toppings</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Pizza must include at least one topping&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Set pizza variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crust</span> <span class="o">=</span> <span class="n">crust</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sauce</span> <span class="o">=</span> <span class="n">sauce</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cheese</span> <span class="o">=</span> <span class="n">cheese</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toppings</span> <span class="o">=</span> <span class="n">toppings</span></div>
+
+    
+<div class="viewcode-block" id="Pizza.__str__">
+<a class="viewcode-back" href="../../pizza.html#src.pizza.Pizza.__str__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the pizza.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Description of the pizza and its cost</span>
+<span class="sd">            </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; pizza = Pizza(&quot;thin&quot;, [&quot;marinara&quot;], &quot;mozzarella&quot;, [&quot;pepperoni&quot;])</span>
+<span class="sd">            &gt;&gt;&gt; str(pizza)</span>
+<span class="sd">            &#39;Thin crust pizza with marinara sauce, mozzarella cheese, and pepperoni. Cost: $9&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sauce_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sauce</span><span class="p">)</span>
+        <span class="n">toppings_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toppings</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">crust</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> crust pizza with </span><span class="si">{</span><span class="n">sauce_str</span><span class="si">}</span><span class="s2"> sauce, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cheese</span><span class="si">}</span><span class="s2"> cheese, &quot;</span> \
+               <span class="sa">f</span><span class="s2">&quot;and </span><span class="si">{</span><span class="n">toppings_str</span><span class="si">}</span><span class="s2">. Cost: $</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+    
+<div class="viewcode-block" id="Pizza.cost">
+<a class="viewcode-back" href="../../pizza.html#src.pizza.Pizza.cost">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the cost of the pizza based on its ingredients.</span>
+<span class="sd">        </span>
+<span class="sd">        The cost is calculated by adding:</span>
+<span class="sd">        - The cost of the crust</span>
+<span class="sd">        - The cost of each sauce</span>
+<span class="sd">        - The cost of each topping</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Total cost of the pizza</span>
+<span class="sd">            </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; pizza = Pizza(&quot;thin&quot;, [&quot;marinara&quot;], &quot;mozzarella&quot;, [&quot;pepperoni&quot;])</span>
+<span class="sd">            &gt;&gt;&gt; pizza.cost()</span>
+<span class="sd">            9</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">total_cost</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="c1"># Add crust cost</span>
+        <span class="n">total_cost</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CRUST_PRICES</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">crust</span><span class="p">]</span>
+        
+        <span class="c1"># Add sauce costs</span>
+        <span class="k">for</span> <span class="n">sauce</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sauce</span><span class="p">:</span>
+            <span class="n">total_cost</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAUCE_PRICES</span><span class="p">[</span><span class="n">sauce</span><span class="p">]</span>
+        
+        <span class="c1"># Add topping costs</span>
+        <span class="k">for</span> <span class="n">topping</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">toppings</span><span class="p">:</span>
+            <span class="n">total_cost</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TOPPING_PRICES</span><span class="p">[</span><span class="n">topping</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">total_cost</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Kyle Woolford.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

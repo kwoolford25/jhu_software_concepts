@@ -27,7 +27,7 @@ module_4/
 │   ├── test_order.py     # Order class tests
 │   ├── test_pizza.py     # Pizza class tests
 │   └── test_integration.py  # Integration tests
-├── docs/                 # Documentation
+├── docs/                 # Documentation source files
 │   └── ...               # Sphinx documentation files
 ├── html_docs/            # Generated HTML documentation
 ├── demo.py               # Demo script to showcase functionality
@@ -118,7 +118,51 @@ python demo.py
 
 Full documentation is available at [Read the Docs](https://kwoolford-software-concepts.readthedocs.io/en/latest/).
 
-You can also view the documentation locally:
-```bash
-cd docs
-make html
+### Viewing Documentation Locally
+
+You can view the documentation locally in several ways:
+
+1. **Open HTML directly**:
+   ```bash
+   # Navigate to the html_docs directory
+   cd html_docs
+   # Open index.html in your default browser
+   start index.html  # On Windows
+   open index.html   # On macOS
+   xdg-open index.html  # On Linux
+   ```
+
+2. **Use Python's built-in HTTP server**:
+   ```bash
+   # Navigate to the html_docs directory
+   cd html_docs
+   # Start a simple HTTP server
+   python -m http.server 8000
+   # Then open http://localhost:8000 in your browser
+   ```
+
+3. **Build the documentation from source**:
+   ```bash
+   # Navigate to the docs directory
+   cd docs
+   # Build the HTML documentation
+   sphinx-build -b html . _build/html
+   # Open the built documentation
+   start _build/html/index.html  # On Windows
+   ```
+
+## Development
+
+This project was developed using Test-Driven Development (TDD) principles:
+1. Write tests first
+2. Run tests to verify they fail
+3. Write code to make tests pass
+4. Refactor code as needed
+
+## License
+
+This project is part of the JHU EP 605.256 – Modern Software Concepts in Python course.
+
+## Author
+
+Your Name
