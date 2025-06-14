@@ -1,4 +1,5 @@
 import pytest
+from src.pizza import Pizza
 
 @pytest.mark.pizza
 def test_pizza_init():
