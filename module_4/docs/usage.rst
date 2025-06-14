@@ -1,8 +1,8 @@
 Usage
 =====
 
-Creating a Basic Order
----------------------
+Basic Usage
+----------
 
 Here's how to create a basic pizza order:
 
@@ -27,31 +27,60 @@ Pizza Options
 
 The system supports the following options:
 
-Crusts:
-  - thin ($5)
-  - thick ($6)
-  - gluten_free ($8)
+Crusts
+^^^^^^
 
-Sauces:
-  - marinara ($2)
-  - pesto ($3)
-  - liv_sauce ($5)
+.. list-table::
+   :header-rows: 1
 
-Toppings:
-  - pineapple ($1)
-  - pepperoni ($2)
-  - mushrooms ($3)
+   * - Crust Type
+     - Cost
+   * - thin
+     - $5
+   * - thick
+     - $6
+   * - gluten_free
+     - $8
 
-Cheese:
-  - mozzarella (included)
+Sauces
+^^^^^^
 
-Example Orders
--------------
+.. list-table::
+   :header-rows: 1
 
-Example Order 1:
-  - Pizza with thin crust, pesto sauce, mozzarella cheese, and mushrooms
-  - Pizza with thick crust, marinara sauce, mozzarella cheese, and mushrooms
+   * - Sauce Type
+     - Cost
+   * - marinara
+     - $2
+   * - pesto
+     - $3
+   * - liv_sauce
+     - $5
 
-Example Order 2:
-  - Pizza with gluten-free crust, marinara sauce, mozzarella cheese, and pineapple
-  - Pizza with thin crust, liv sauce and pesto sauce, mozzarella cheese, mushrooms, and pepperoni
+Toppings
+^^^^^^^
+
+.. list-table::
+   :header-rows: 1
+
+   * - Topping Type
+     - Cost
+   * - pineapple
+     - $1
+   * - pepperoni
+     - $2
+   * - mushrooms
+     - $3
+
+Cheese
+^^^^^^
+
+Only mozzarella cheese is supported (included in the base price).
+
+Rules
+-----
+
+1. Each pizza must include at least one sauce and one topping
+2. Only one crust option is allowed per pizza
+3. Multiple sauces and toppings are allowed
+4. The total cost is calculated by adding the costs of all ingredients

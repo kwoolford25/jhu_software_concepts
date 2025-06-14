@@ -1,5 +1,21 @@
 class Pizza:
-    """Pizza class for creating and managing pizza objects."""
+    """
+    Pizza class for creating and managing pizza objects.
+    
+    This class handles the creation of pizza objects with various
+    ingredients and calculates the cost based on the selected options.
+    
+    Attributes:
+        crust (str): Type of crust (thin, thick, or gluten_free)
+        sauce (list): List of sauces (marinara, pesto, liv_sauce)
+        cheese (str): Type of cheese (only mozzarella supported)
+        toppings (list): List of toppings (pineapple, pepperoni, mushrooms)
+    
+    Example:
+        >>> pizza = Pizza("thin", ["marinara"], "mozzarella", ["pepperoni"])
+        >>> print(pizza)
+        Thin crust pizza with marinara sauce, mozzarella cheese, and pepperoni. Cost: $9
+    """
     
     # Define price constants
     CRUST_PRICES = {
@@ -29,6 +45,12 @@ class Pizza:
             sauce (list): List of sauces (marinara, pesto, liv_sauce)
             cheese (str): Type of cheese (only mozzarella supported)
             toppings (list): List of toppings (pineapple, pepperoni, mushrooms)
+            
+        Raises:
+            ValueError: If any ingredient is invalid or if required ingredients are missing
+            
+        Example:
+            >>> pizza = Pizza("thin", ["marinara"], "mozzarella", ["pepperoni"])
         """
         # Validate inputs
         if crust not in self.CRUST_PRICES:
@@ -64,6 +86,11 @@ class Pizza:
         
         Returns:
             str: Description of the pizza and its cost
+            
+        Example:
+            >>> pizza = Pizza("thin", ["marinara"], "mozzarella", ["pepperoni"])
+            >>> str(pizza)
+            'Thin crust pizza with marinara sauce, mozzarella cheese, and pepperoni. Cost: $9'
         """
         sauce_str = ", ".join(self.sauce)
         toppings_str = ", ".join(self.toppings)
@@ -75,8 +102,18 @@ class Pizza:
         """
         Calculate the cost of the pizza based on its ingredients.
         
+        The cost is calculated by adding:
+        - The cost of the crust
+        - The cost of each sauce
+        - The cost of each topping
+        
         Returns:
             int: Total cost of the pizza
+            
+        Example:
+            >>> pizza = Pizza("thin", ["marinara"], "mozzarella", ["pepperoni"])
+            >>> pizza.cost()
+            9
         """
         total_cost = 0
         

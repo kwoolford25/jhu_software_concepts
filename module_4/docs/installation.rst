@@ -1,6 +1,16 @@
 Installation
 ===========
 
+Prerequisites
+------------
+
+* Python 3.10 or higher
+* pytest (for running tests)
+* sphinx (for building documentation)
+
+Installation Steps
+-----------------
+
 To install the Pizza Ordering System, follow these steps:
 
 1. Clone the repository:
@@ -26,3 +36,12 @@ To install the Pizza Ordering System, follow these steps:
    .. code-block:: bash
 
       pytest
+
+Running the Demo
+---------------
+
+To run a demonstration of the system:
+
+.. code-block:: bash
+
+   python demo.py
